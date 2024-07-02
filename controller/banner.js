@@ -94,30 +94,16 @@ class Banner extends BaseComponent {
 
       res.send(this.successMessage(null, data));
     } catch (err) {
-      res.send(this.failMessage(err.message));
+      console.log(err.message);
     }
   }
 
   // 获得轮播图详情
   async getBannerDetail(req, res, nex) {
     const { bannerId } = req.query;
-
-    try {
-      if (!bannerId) {
-        throw new Error('轮播图id不能为空');
-      }
-
-      // 获得轮播图信息
-      const bannerInfo = await BannerModel.findOne({ id: bannerId }, '-_id -__v').lean();
-
-      if (!bannerInfo) {
-        throw new Error('未找到轮播图信息');
-      } else {
-        res.send(this.successMessage(null, bannerInfo));
-      }
-    } catch (err) {
-      res.send(this.failMessage(err.message));
-    }
+    // 获得轮播图信息
+    const bannerInfo = await BannerModel.findOne({ id: bannerId }, '-_id -__v').lean();
+    res.send(this.successMessage(null, bannerInfo));
   }
 
   // 保存轮播图
